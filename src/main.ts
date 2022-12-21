@@ -2,6 +2,7 @@ import './style.css'
 import * as THREE from "three"
 const canvas = document.querySelector('canvas')
 const scene = new THREE.Scene();
+// import gsap from 'gsap'
 
 const sizes = {
   width: 700,
@@ -21,6 +22,9 @@ scene.add( cube );
 
 renderer.setSize(sizes.width, sizes.height)
 renderer.render( scene, camera );
+
+
+// gsap.to(cube.position, { duration: 1, delay: 1, x: 2 })
 
 const animate = () => {
   requestAnimationFrame( animate );
