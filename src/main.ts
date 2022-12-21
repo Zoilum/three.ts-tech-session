@@ -1,10 +1,5 @@
 import * as THREE from "three"
 
-const sizes = {
-  width: window.innerWidth,
-  height: window.innerHeight
-}
-
 // Scene
 const scene = new THREE.Scene()
 
@@ -15,13 +10,12 @@ const mesh = new THREE.Mesh(geometry, material)
 scene.add(mesh)
 
 // Camera
-const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height)
+const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight)
 scene.add(camera)
 camera.position.z = 3
 
 const canvas = document.querySelector('canvas')
 const renderer = new THREE.WebGLRenderer({ canvas: canvas! })
-renderer.setSize(sizes.width, sizes.height)
 renderer.render(scene, camera)
 
 export {}
