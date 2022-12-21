@@ -17,11 +17,17 @@ camera.position.z = 3;
 
 const renderer = new THREE.WebGLRenderer({canvas: canvas!});
 
-const geometry = new THREE.BoxGeometry( 1, 1, 1 );
-const material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
-const cube = new THREE.Mesh( geometry, material );
+const geometry = new THREE.BufferGeometry()
+const count = 50
+// const geometry = new THREE.BoxGeometry( 1, 1, 1, 4, 4, 4 );
+const positionsArray = new Float32Array(count * 3 * 3).map(_ => (Math.random() - .5) * 4)
+const positionsAttribute = new THREE.BufferAttribute(positionsArray, 3)
+geometry.setAttribute('position', positionsAttribute)
 
-scene.add( cube );
+const material = new THREE.MeshBasicMaterial({ color: 0xff0000, wireframe: true })
+
+const mesh = new THREE.Mesh(geometry, material)
+scene.add(mesh)
 
 const controls = new OrbitControls(camera, canvas!)
 controls.enableDamping = true;
@@ -32,10 +38,6 @@ renderer.render( scene, camera );
 const animate = () => {
   requestAnimationFrame( animate );
 
-  cube.rotation.x += 0.01;
-  cube.rotation.y += 0.01;
-
-  camera.lookAt(cube.position)
   controls.update()
   renderer.render( scene, camera );
 };
