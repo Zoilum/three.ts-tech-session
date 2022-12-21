@@ -6,8 +6,8 @@ const scene = new THREE.Scene();
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js"
 
 const sizes = {
-  width: 700,
-  height: 500
+  width: window.innerWidth,
+  height: window.innerHeight
 }
 
 const aspectRatio = sizes.width / sizes.height
@@ -39,6 +39,33 @@ const animate = () => {
   controls.update()
   renderer.render( scene, camera );
 };
+
+
+window.addEventListener('resize', () => {
+  // Update size
+ sizes.width = window.innerWidth
+ sizes.height = window.innerHeight
+
+ // Update camera
+ camera.aspect = sizes.width / sizes.height
+ camera.updateProjectionMatrix()
+
+ // Update renderer
+ renderer.setSize(sizes.width, sizes.height)
+})
+
+window.addEventListener('dblclick', () => {
+  const fullscreenElement = document.fullscreenElement
+  if (canvas) {
+    if (!fullscreenElement) {
+        if (canvas.requestFullscreen) {
+            canvas.requestFullscreen()
+        }
+    } else if (document.exitFullscreen) {
+      document.exitFullscreen()
+    }
+  }
+})
 
 animate();
 
