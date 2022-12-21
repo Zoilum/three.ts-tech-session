@@ -2,6 +2,9 @@ import './style.css'
 import * as THREE from "three"
 const canvas = document.querySelector('canvas')
 const scene = new THREE.Scene();
+import * as lil from "lil-gui"
+import gsap from "gsap"
+
 
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js"
 
@@ -9,6 +12,10 @@ const sizes = {
   width: window.innerWidth,
   height: window.innerHeight
 }
+
+
+
+const gui = new lil.GUI()
 
 const aspectRatio = sizes.width / sizes.height
 const camera = new THREE.PerspectiveCamera( 75, aspectRatio, 0.1, 1000 );
@@ -29,11 +36,31 @@ controls.enableDamping = true;
 renderer.setSize(sizes.width, sizes.height)
 renderer.render( scene, camera );
 
+// Debug
+
+const parameters = {
+  spin: () =>
+  {
+      gsap.to(cube.rotation, {duration: 5, y: cube.rotation.y + Math.PI * 10 })
+  }
+}
+gui.add(cube.position, 'x').min(-3).max(3).step(0.01)
+gui.add(cube.position, 'y').min(-3).max(3).step(0.01).name("pippocazzo")
+gui.add(cube.position, 'z').min(-3).max(3).step(0.01)
+// gui.add(cube.position, 'y', - 3, 3, 0.01)
+// gui.add(cube.position, 'z', - 3, 3, 0.01)
+
+gui.add(cube, "visible")
+
+gui.add(material, "wireframe")
+
+gui.addColor(material, "color")
+
+gui.add(parameters, "spin")
+
+
 const animate = () => {
   requestAnimationFrame( animate );
-
-  cube.rotation.x += 0.01;
-  cube.rotation.y += 0.01;
 
   camera.lookAt(cube.position)
   controls.update()
@@ -52,19 +79,6 @@ window.addEventListener('resize', () => {
 
  // Update renderer
  renderer.setSize(sizes.width, sizes.height)
-})
-
-window.addEventListener('dblclick', () => {
-  const fullscreenElement = document.fullscreenElement
-  if (canvas) {
-    if (!fullscreenElement) {
-        if (canvas.requestFullscreen) {
-            canvas.requestFullscreen()
-        }
-    } else if (document.exitFullscreen) {
-      document.exitFullscreen()
-    }
-  }
 })
 
 animate();
