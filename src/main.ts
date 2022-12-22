@@ -11,7 +11,7 @@ const mesh = new THREE.Mesh(geometry, material)
 scene.add(mesh)
 
 // Camera
-const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight)
+const camera = new THREE.PerspectiveCamera(75, 700 / 500)
 scene.add(camera)
 camera.position.z = 3
 
